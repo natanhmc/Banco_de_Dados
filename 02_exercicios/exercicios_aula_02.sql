@@ -160,14 +160,18 @@ INSERT INTO compras (idFornecedor, idProd, data_compra, qtd) VALUES
 (7, 7, '2022-07-01', 150);
 
 
-select forn.nome, prod.nome, sum(comp.qtd) as total
+select  forn.nome, 
+        prod.nome, 
+        sum(cp.qtd) as total
 from fornecedor forn 
     inner join compras comp 
         on forn.id=comp.idFornecedor
+    inner join compra_produtos cp
+        on cp.idCompra=comp.id
     inner join produto prod 
-        on comp.idProd=prod.id
+        on prod.id=cp.idProd
 group by forn.nome, prod.nome 
-having sum(comp.qtd) >= 100 
+having sum(cp.qtd) >= 100 
 
 --------------------------------------------------------------------------
 
