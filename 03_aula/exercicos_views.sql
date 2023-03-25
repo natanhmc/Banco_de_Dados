@@ -108,17 +108,26 @@ INSERT INTO orcamentos_itens (id_prod, id_orc, valor_unit, quantidade, valor_tot
 
 
 create view vw_produt_orcam_item  (id, nome_prod,data_orcamento, status, valor_total, estoque ) as
-select prod.id as id, prod.nome as nome_prod, orc.data as data_orcamento, orc.status, sum(orc_item.valor_total_item) as valor_total, prod.saldo as estoque
-from orcamentos orc 
-        join orcamentos_itens orc_item 
-            on orc.id=orc_item.id_orc 
-        join produtos prod 
-            on orc_item.id_prod=prod.id 
-where orc.data >='2022-01-01' and orc.data<='2022-01-31' and prod.nome LIKE "%Produto B%" and prod.saldo> 0 and orc_item.valor_unit>10
-group by prod.id
-order by valor_total desc
-limit 10
+    select prod.id as id, prod.nome as nome_prod, orc.data as data_orcamento, orc.status, sum(orc_item.valor_total_item) as valor_total, prod.saldo as estoque
+    from orcamentos orc 
+            join orcamentos_itens orc_item 
+                on orc.id=orc_item.id_orc 
+            join produtos prod 
+                on orc_item.id_prod=prod.id 
+    where orc.data >='2022-01-01' and orc.data<='2022-01-31' and prod.nome LIKE "%Produto B%" and prod.saldo> 0 and orc_item.valor_unit>10
+    group by prod.id
+    order by valor_total desc
+    limit 10
 --esse acho q nao faz sentido pois nao atende a todos os requesitos
+create view orcamento_produtos(id, nome_prod,data_orcamento, status, valor_total, estoque ) as
+    select prod.id as id, prod.nome as nome_prod, orc.data as data_orcamento, orc.status, sum(orc_item.valor_total_item) as valor_total, prod.saldo as estoque
+    from orcamentos orc 
+            join orcamentos_itens orc_item 
+                on orc.id=orc_item.id_orc 
+            join produtos prod 
+                on orc_item.id_prod=prod.id 
+    order by nome_prod acs
+
 
 -- adicionar 20%
 select prod.id, nome_prod, prod.valor, (prod.valor * 1.2)as valor_mais20
