@@ -17,8 +17,6 @@ call getDateTime();
 call getPersonByName('la');
 
 
-
-
 DELIMITER $$
 CREATE PROCEDURE cru_pessoas(p_id int , p_nome varchar(100), oper char(1))
 BEGIN
@@ -36,6 +34,7 @@ BEGIN
     
 END $$
 DELIMITER ;
+
 
 drop procedure cud_pessoas;
 DELIMITER $$
@@ -61,7 +60,7 @@ DELIMITER ;
 
 call cud_pessoas(0,'Gisa',1);
 
--- desafio era fazer uma procedure para fazer uma tabuada e armazenala em uma e tabela tabuada.
+-- desafio era fazer uma procedure para fazer uma tabuada e armazena-la em uma e tabela tabuada.
 
 --a tabela tabuadas deve ter os campos 
 --numero e tabuada
