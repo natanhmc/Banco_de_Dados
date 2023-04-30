@@ -74,7 +74,7 @@ create table voo_passageiro(
 );
 
 
--- inserts-----------------------------------------------------------------------------
+-- inserts -----------------------------------------------------------------------------
 
 INSERT INTO piloto (nome, cpf, endereco, cidade, hora_voo, salario) VALUES 
     ('João Silva', '123.456.789-10', 'Rua das Flores, 123', 'São Paulo', 120.5, 5000.0),
@@ -148,18 +148,6 @@ INSERT INTO voo (id_piloto, id_aviao, origem, destino, tempo_voo, data_voo) VALU
 (5, 1, 'Manaus', 'São Paulo', 4.5,2024-01-08 18:00:00);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 INSERT INTO passageiro (nome, cpf, endereco, cidade, id_voo, classe)
 VALUES 
 ('João da Silva', '123.456.789-10', 'Rua das Flores, 123', 'São Paulo', 1, 'Econômica'),
@@ -218,12 +206,13 @@ create view voo_0_passageiro as
 
 -- segunda view 
 
- create view qtd_cid as
-    select count(id) as qtd_cid, cidade
-    from passageiro
-    group by cidade
-    order by qtd_cid desc
-
+ create view voo_pas_data as
+    select pas.id as id_pass, vo.id as id_vo, vo.data_voo
+    from passageiro pas 
+    inner join voo_passageiro vp 
+        on  pas.id = vp.id_passageiro
+    inner join voo vo 
+        on vp.id_voo = vo.id;
 
 -- terceira view 
 
@@ -262,17 +251,17 @@ BEGIN
     elseif (oper = 3) then 
         if exists (select id from passageiro where id = id_crud ) then
             delete from passageiro where id = id_crud;
-            select concat('passageiro com id ', id_crud, ' foi removido com sucesso') as mensagem;
+            select concat('Passageiro com id ', id_crud, ' foi removido com sucesso') as mensagem;
         else 
             select concat('Não foi encontrado um passageiro com id ', id_crud) as mensagem;
         end if;
     else
-        select 'insira 1 para insert, 2 para update e 3 para delete';
+        select 'Insira 1 para insert, 2 para update e 3 para delete';
     end if;
 END $$
 DELIMITER ;
 
-call crud_passageiro( null,'Fernanda', '222.657.123-55', 'Rua das Palmeiras, 456', 'São Paulo', 'Econômica',1);
+call crud_passageiro( null,'Natan', '222.657.123-55', 'Rua das Palmeiras, 456', 'São Paulo', 'Econômica',1);
 
 -- segunda procedure crud voo
 
@@ -280,7 +269,8 @@ DELIMITER $$
     CREATE PROCEDURE crud_voo(id_voo_crud int, id_pilot_crud int, id_aviao_crud int, origem_crud varchar(50), destino_crud varchar(50), tempo_crud float, data_voo_crud datetime, oper int )
     BEGIN
         if (oper = 1) then
-        if (select id_voo from voo where data_voo_crud>(data_voo+tempo_voo) and data_voo_crud<=(data_voo - 2) and id_aviao_crud <> id_aviao and origem <> destino_crud ) then
+        if exists (select id from voo where data_voo_crud > DATE_ADD(data_voo, INTERVAL tempo_voo HOUR_MINUTE) 
+				and data_voo <> data_voo_crud)then
             insert into voo (id_piloto, id_aviao, origem, destino, tempo_voo, data_voo)
                     values (id_pilot_crud, id_aviao_crud, origem_crud, destino_crud, tempo_crud, data_voo_crud);
             select concat('voo com destino a ',destino_crud,' inserido com sucesso na data de ',data_voo_crud) as mensagem;
@@ -288,12 +278,12 @@ DELIMITER $$
             select 'Dados incorretos!!' as mensagem;
         end if;
     elseif (oper = 2) then
-        if exists (select id from voo where id = id_voo_crud and data_voo< day(data_voo_crud - 3) ) then
+        if exists (select id from voo where id = id_voo_crud and data_voo <> data_voo_crud) then
             update voo set id_piloto = id_pilot_crud, id_aviao = id_aviao_crud, origem = origem_crud, destino = destino_crud, tempo_voo = tempo_crud, data_voo = data_voo_crud
             where id = id_voo_crud;
-            select concat('O passageiro ',nome_novo,' foi atualizado com sucesso!!') as mensagem;
+            select concat('O voo de id: ',id_voo_crud,' foi atualizado com sucesso!!') as mensagem;
         else 
-            if (select id from voo where id = id_voo_crud) then
+            if (select id from voo where id != id_voo_crud) then
                 select concat('Não foi encontrado um voo com id ', id_voo_crud) as mensagem;
             else
                 select 'Data invalida!!' as mensagem;
@@ -304,22 +294,59 @@ DELIMITER $$
             delete from voo where id = id_voo_crud;
             select concat('Voo com id ', id_voo_crud, ' foi removido com sucesso') as mensagem;
         else 
-            select concat('Não é possível excluir este voo ', id_voo_crud) as mensagem;
+            select concat('Não é possível excluir este voo : ', id_voo_crud) as mensagem;
         end if;
     else
-        select 'insira 1 para insert, 2 para update e 3 para delete';
+        select 'insira 1 para insert, 2 para update e 3 para delete' as mensagem;
     end if;
     END $$
 DELIMITER ;
 
 
 
--- terceira procedure 
+call crud_voo(null,5,5,'Santos', 'Bahia',1.25,'2026-10-20 20:30:00',1);
+
+call crud_voo(23, 1, 1, 'Torres', 'Nova York', 7.25, '2025-11-20 10:35:00', 2);
+
+call crud_voo(1, 5, 5, 'Santos', 'Bahia', 1.25, '2026-10-20 20:30:00', 3);            
+
+
+-- terceira procedure adicionando passageiro
 
 DELIMITER $$
-    CREATE PROCEDURE 
-    BEGIN
-
-    END $$
+CREATE PROCEDURE add_passageiro_voo(id_passag_add int, id_voo_add int)
+BEGIN
+    if exists (select id from passageiro where id = id_passag_add) 
+       && exists (select id from voo where id = id_voo_add) 
+       && not exists (select id_pass from voo_pas_data where id_pass = id_passag_add and id_vo = id_voo_add) 
+    then
+        insert into voo_passageiro (id_passageiro, id_voo) values (id_passag_add, id_voo_add);
+    else 
+        select 'Dados incorretos !!' as mensagem;
+    end if;
+END $$
 DELIMITER ;
 
+call add_passageiro_voo(34,8);
+
+
+-- quarta procedure deletando passageiro
+
+DELIMITER $$
+CREATE PROCEDURE delete_passageiro_voo(id_passag_remove int, id_voo_remove int)
+BEGIN
+    DECLARE voo_data_voo DATE;
+    
+	SELECT data_voo INTO voo_data_voo FROM voo WHERE id = id_voo_remove;
+    
+    IF EXISTS (SELECT id_passageiro FROM voo_passageiro WHERE id_passageiro = id_passag_remove AND id_voo = id_voo_remove) 
+       
+    THEN
+        DELETE FROM voo_passageiro WHERE id_passageiro = id_passag_remove AND id_voo = id_voo_remove;
+    ELSE 
+        SELECT 'Dados incorretos !!' AS mensagem;
+    END IF;
+END $$
+DELIMITER ;
+
+call delete_passageiro_voo(34,6);
