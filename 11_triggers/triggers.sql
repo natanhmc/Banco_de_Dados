@@ -37,9 +37,9 @@ delete from funcionarios where id=3
 
 
  DELIMITER $$
-CREATE TRIGGER trigger_autaliza_total_salario_por_setor AFTER INSERT ON funcionarios
-	FOR EACH ROW
-BEGIN
+	CREATE TRIGGER trigger_autaliza_total_salario_por_setor AFTER INSERT ON funcionarios
+		FOR EACH ROW
+	BEGIN
 	
 	update setores set total_salario = total_salario + NEW.salario
     where id = NEW.id_setor;
