@@ -50,7 +50,7 @@ BEGIN
         WHERE id = NEW.id_produto;
     ELSE
         INSERT INTO produtos_em_falta (prd_codigo, prd_descricao, prd_qtd_estoque)
-        VALUES (NEW.id_produto, (SELECT descricao FROM produtos WHERE id = NEW.id_produto), 0);
+        VALUES (NEW.id_produto, (SELECT descricao FROM produtos WHERE id = NEW.id_produto), NEW.qtd_produto - qtd_atual);
 
         UPDATE produtos set status_prod = "inativo", qtd_estoque = 0;
     
