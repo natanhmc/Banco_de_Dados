@@ -106,7 +106,7 @@ VALUES (1, 1, 0.5),
 
 -- 3. Alterar a tabela de Produtos e incluir o tempo de validade. 
 
-alter table Produto add column data_validade date not null;
+alter table Produto add column data_validade date not null;  -- o certo era botar em dias para na logica automaticamente somar a data de fabricação
 
 -- Exibir quantos produtos há para cada categoria; 
 
