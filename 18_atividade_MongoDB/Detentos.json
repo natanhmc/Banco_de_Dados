@@ -1,0 +1,22 @@
+[
+    {
+        "Nome": "João",
+        "Bloco": "A",
+        "Cela": 101
+    },
+    {
+        "Nome": "Maria",
+        "Bloco": "B",
+        "Cela": 202
+    },
+    {
+        "Nome": "Pedro",
+        "Bloco": "C",
+        "Cela": 303
+    },
+    {
+        "Nome": "Marcos",
+        "Bloco": "D",
+        "Cela": 404
+    }
+]

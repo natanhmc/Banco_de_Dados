@@ -1,0 +1,53 @@
+[
+    {
+        "Visitante":
+        {
+            "Nome": "Ana",
+            "Relacionamento": "Amiga",
+            "Detento":
+            {
+                "Nome": "Maria",
+                "Bloco": "B",
+                "Cela": 202
+            }
+
+        },
+        "DataVisita": "2023-05-10",
+        "HoraEntrada": "09:00",
+        "HoraSaida": "10:30"
+    },
+    {
+        "Visitante":
+        {
+            "Nome": "Carlos",
+            "Relacionamento": "Familiar",
+            "Detento":
+            {
+                "Nome": "João",
+                "Bloco": "A",
+                "Cela": 101
+            }
+        },
+        "DataVisita": "2023-05-11",
+        "HoraEntrada": "14:00",
+        "HoraSaida": "15:30"
+    },
+    {
+        "Visitante":
+        {
+            "Nome": "Antonio",
+            "Relacionamento": "Amigo",
+            "Detento":
+            {
+                "Nome": "Pedro",
+                "Bloco": "C",
+                "Cela": 303
+            }
+        },
+        "DataVisita": "2023-05-12",
+        "HoraEntrada": "10:00",
+        "HoraSaida": "11:30"
+    }
+]
+// Botei o visitante dentro do objeto Visitas pois um visitante só é visitante quando
+// faz uma visita.
