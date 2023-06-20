@@ -1,0 +1,25 @@
+Criando o database:
+    use Pizzaria
+
+Inserindo o cliente
+    db.cliente.insertOne({
+    " aqui o objeto cliente "
+    })
+
+Inserindo o produto
+    db.produto.insertOne({
+        " aqui o objeto produto, pizza ou bebida "
+    })
+
+Inserindo o pedido
+    db.pedido.insertOne({
+        " aqui o objeto pedido, no campo 'forma_entrega' eu botei um array, mas é para exemplo,
+        pois se o cliente pedir para entregar não precisa botar o número da mesa nem o valor da tele "
+    })
+
+Fazendo Update em um cliente
+    db.cliente.updateOne( { nome: "Natan Hugentobler" }, { $set: { telefone: "(51)012345678" } } ) 
+
+
+Deletando um produto
+    db.produto.deleteOne

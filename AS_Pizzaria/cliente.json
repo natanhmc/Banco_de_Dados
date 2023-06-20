@@ -1,0 +1,10 @@
+{
+    "nome": "Natan Hugentobler",
+    "cpf": "098.765.432-10",
+    "endereco": {
+        "rua": "rua abcde",
+        "bairro": "bairro abcdef",
+        "cidade": "torres"
+    },
+    "telefone": "(51)987654321"
+}

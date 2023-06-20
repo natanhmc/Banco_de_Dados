@@ -1,0 +1,50 @@
+{
+    "cliente_cpf": "098.765.432-10",
+    "forma_entrega":[
+        {
+            "rua": "rua abcde",
+            "bairro": "bairro abcdef",
+            "cidade": "torres"
+        },
+        {
+            "numero_mesa": 10
+        }
+
+    ],
+    "tele": 8.00,
+    "data_pedido": "2023-06-17 17:26",
+    "itens":[
+        {
+            "tipo": "pizza",
+            "sabores":[
+                {
+                    "sabor": "marguerita",
+                    "tamanho": "P",
+                    "valor": 30.00
+                },
+                {
+                    "sabor": "calabresa",
+                    "tamanho": "P",
+                    "valor": 30.00
+                },
+                {
+                    "sabor": "camarão",
+                    "tamanho": "P",
+                    "valor": 45.00
+                }
+            ]
+        },
+        {
+            "marca": "Coca-Cola",
+            "volume": "600ml",
+            "valor": 5.99 
+        },
+        {
+            "marca": "Pepsi",
+            "volume": "1000ml",
+            "valor": 8.99 
+        }
+    ],
+    "forma_pagamento": "credito",
+    "total_pedido": 67.98
+}
