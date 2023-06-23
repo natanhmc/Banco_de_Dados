@@ -22,4 +22,39 @@ Fazendo Update em um cliente
 
 
 Deletando um produto
-    db.produto.deleteOne
+    db.produto.deleteOne({ sabor : "portuguesa})
+
+Consultando todos os produtos
+    db.produto.find()
+
+Consultando pedidos com uma condição
+    db.pedido.find({ cliente_cpf : "098.765.432-10"})
+
+Consulta com Aggregate com $lookup ( join )
+    db.pedidos.aggregate([
+        {
+            $lookup: {
+                from: "pizza",
+                localField: "saborId",
+                foreignField: "_id",
+                as: "saborPizza"
+            }
+        }
+    ])
+
+Consulta com Aggregate com $group
+    db.pedidos.aggregate([
+        {
+            $group: {
+                _id: "$cliente_cpf",
+                totalVendas: { $sum: "$total_pedido" }
+            }
+        }
+    ])
+
+Criando os índices
+    db.cliente.createIndex({ telefone : 1 })
+
+    db.pedido.createIndex({ cliente_cpf : 1 })
+
+Eu criei esses índeces para melhorar as procuras dos pedidos por cliente, e dos próprios cliente.
