@@ -1,16 +1,11 @@
 {
     "cliente_cpf": "098.765.432-10",
-    "forma_entrega":[
+    "forma_entrega":
         {
             "rua": "rua abcde",
             "bairro": "bairro abcdef",
             "cidade": "torres"
         },
-        {
-            "numero_mesa": 10
-        }
-
-    ],
     "tele": 8.00,
     "data_pedido": "2023-06-17 17:26",
     "itens":[
@@ -48,3 +43,39 @@
     "forma_pagamento": "credito",
     "total_pedido": 67.98
 }
+
+
+
+
+
+
+{
+    "cliente_cpf": "098.765.111-00",
+    "forma_entrega":[
+        
+        {
+            "numero_mesa": 10,
+            "garcom_id": "649a3b6732de1ad71e248398"
+        }
+
+    ],
+    "tele": 0,
+    "data_pedido": "2023-06-17 17:26",
+    "itens":[
+        {
+            "tipo": "pizza",
+            "sabores":
+                {
+                    "sabor": "camarão",
+                    "tamanho": "P",
+                    "valor": 45.00
+                }
+        },
+        {
+            "marca": "Pepsi",
+            "volume": "1000ml",
+            "valor": 8.99 
+        }
+    ],
+    "forma_pagamento": "credito",
+    "total_pedido": 53.99

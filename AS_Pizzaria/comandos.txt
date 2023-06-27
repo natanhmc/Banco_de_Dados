@@ -31,19 +31,29 @@ Consultando pedidos com uma condição
     db.pedido.find({ cliente_cpf : "098.765.432-10"})
 
 Consulta com Aggregate com $lookup ( join )
-    db.pedidos.aggregate([
+   db.pedido.aggregate([
         {
             $lookup: {
-                from: "pizza",
-                localField: "saborId",
-                foreignField: "_id",
-                as: "saborPizza"
+                from: "cliente",
+                localField: "cliente_cpf",
+                foreignField: "cpf",
+                as: "cliente"
             }
+        },
+        {
+            $project: {
+                "cliente.nome": 1,
+                "cliente.telefone": 1,
+                total_pedido: 1
+            }
+        },
+        {
+            $limit: 1
         }
     ])
 
 Consulta com Aggregate com $group
-    db.pedidos.aggregate([
+    db.pedido.aggregate([
         {
             $group: {
                 _id: "$cliente_cpf",
